@@ -51,6 +51,7 @@ powers = {
 }
 
 provinceData = {}
+arrowData = {}
 
 function load_unit(type, power, target, x, y) {
   Snap.load("/static/svg/" + type + ".svg", function(f) {
@@ -73,6 +74,39 @@ function load_unit(type, power, target, x, y) {
     x = x - box.width / 2;
     y = y - box.height / 2;
     group.transform("t" + x + "," + y + " s" + s + "," + s);
+  });
+}
+
+
+function draw_arrow(from, to) {
+  var s = Snap('#map');
+  var orderLayer = s.select("#OrderLayer");
+  Snap.load("/static/svg/arrow.svg", function(f) {
+    var arrow = f.select("g");
+    orderLayer.append(arrow);
+    var box = arrow.getBBox();
+
+    var start = provinceData[from].unit;
+    var end = provinceData[to].unit;
+    var vector = {x: end.x - start.x, y: end.y - start.y};
+    var air_start = 25;
+    var air_end = 0;
+    var scaleX = (Math.sqrt(vector.x * vector.x + vector.y * vector.y) - air_start - air_end) / box.width;
+    var scaleY = 60 / box.height;
+
+    var angle = Math.atan2(vector.y, vector.x) * 180 / Math.PI;
+
+    arrow.transform("t" + start.x + "," + start.y +
+                    " r" + angle + ",0,0" +
+                    " t" + (air_start + box.width / 2 * (scaleX - 1)) + "," + (-box.height / 2) +
+                    " s" + scaleX + "," + scaleY);
+
+
+    var data = arrowData[from];
+    if (data == undefined) {
+      arrowData[from] = {};
+    }
+    arrowData[from][to] = arrow;
   });
 }
 
@@ -125,6 +159,10 @@ function build_map() {
   s.select("#MouseLayer").attr("pointer-events", "none");
   s.select("#FullLabelLayer").attr("pointer-events", "none");
   s.select("#BriefLabelLayer").attr("pointer-events", "none");
+  s.select("#UnitLayer").attr("pointer-events", "none");
+  s.select("#SupplyCenterLayer").attr("pointer-events", "none");
+  s.select("#OrderLayer").attr("pointer-events", "none");
+  s.select("#HighestOrderLayer").attr("pointer-events", "none");
 
   var supplyCenterLayer = s.select("#SupplyCenterLayer");
   for (var key in provinceData) {
@@ -174,6 +212,12 @@ function build_map() {
     }
   }
   s.select("#FullLabelLayer").show();
+
+  draw_arrow("mos", "sev");
+  draw_arrow("sev", "mos");
+  draw_arrow("mos", "stp");
+  draw_arrow("mos", "war");
+  draw_arrow("mos", "lvn");
 }
 
 window.onload = function () {
