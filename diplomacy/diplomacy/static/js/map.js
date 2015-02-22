@@ -62,7 +62,7 @@ function load_unit(type, power, target, x, y) {
     var fill = $(e.node).css("fill");
     m = fill.match(/^rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)$/i);
     if (m) {
-      var d = 0.75;
+      var d = 1.5;
       var r = Math.round(m[1] * d);
       var g = Math.round(m[2] * d);
       var b = Math.round(m[3] * d);

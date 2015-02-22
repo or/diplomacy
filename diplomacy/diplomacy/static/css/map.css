@@ -3,10 +3,10 @@
 
 .neutral    {fill: dimgray;}
 
-.austria    {fill: indianred;}
-.england    {fill: orange;}
-.france     {fill: #1565B2;}
-.germany    {fill: gold;}
-.italy      {fill: #7CB822;}
-.russia     {fill: darkorchid;}
+.austria    {fill: #A64B4B;} /* indianred */
+.england    {fill: darkorange;}
+.france     {fill: #125699;} /* dodgerblue */
+.germany    {fill: goldenrod;}
+.italy      {fill: #5C9802;}
+.russia     {fill: #7A399A;} /* darkorchid */
 .turkey     {fill: dodgerblue;}
