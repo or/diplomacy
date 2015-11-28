@@ -1,12 +1,12 @@
-.nopower    {fill: #E1D4C2;}
-.water      {fill: lightblue;}
+.nopower    {fill: #E1D4C2;stroke:#E1D4C2;}
+.water      {fill: lightblue;stroke:lightblue;}
 
-.neutral    {fill: dimgray;}
+.neutral    {fill: dimgray;stroke:dimgray;}
 
-.austria    {fill: #A64B4B;} /* indianred */
-.england    {fill: #CC3700;} /* orangered */
-.france     {fill: #125699;} /* dodgerblue */
-.germany    {fill: goldenrod;}
-.italy      {fill: #5C9802;}
-.russia     {fill: #7A399A;} /* darkorchid */
-.turkey     {fill: dodgerblue;}
+.austria    {fill: #A64B4B;stroke:#A64B4B;} /* indianred */
+.england    {fill: #CC3700;stroke:#CC3700;} /* orangered */
+.france     {fill: #125699;stroke:#125699;} /* dodgerblue */
+.germany    {fill: goldenrod;stroke:goldenrod;}
+.italy      {fill: #5C9802;stroke:#5C9802;}
+.russia     {fill: #7A399A;stroke:#7A399A;} /* darkorchid */
+.turkey     {fill: dodgerblue;stroke:dodgerblue;}

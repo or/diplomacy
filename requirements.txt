@@ -1,3 +1,5 @@
 Django==1.8a1
+lxml==3.4.2
 
 ipython==3.0.0rc1
+ipdb==0.8

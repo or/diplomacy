@@ -1,3 +1,5 @@
+USE_MOUSE_LAYER = false;
+
 powers = {
   russia: {
     territory: ["lvn", "stp", "mos", "sev", "war", "ukr"],
@@ -113,7 +115,7 @@ function draw_arrow(from, to) {
 
 function build_map() {
   var request = new XMLHttpRequest();
-  request.open("GET", "/static/svg/map.svg", false);
+  request.open("GET", "/static/svg/map.svg?" + Math.random(), false);
   request.send(null);
 
   // read relevant XML data first, won't work after the svg node is included in the DOM tree
@@ -156,7 +158,11 @@ function build_map() {
 
   var s = Snap('#map');
 
-  s.select("#MouseLayer").attr("pointer-events", "none");
+  if (USE_MOUSE_LAYER) {
+    s.select("#MapLayer").attr("pointer-events", "none");
+  } else {
+    s.select("#MouseLayer").attr("pointer-events", "none");
+  }
   s.select("#FullLabelLayer").attr("pointer-events", "none");
   s.select("#BriefLabelLayer").attr("pointer-events", "none");
   s.select("#UnitLayer").attr("pointer-events", "none");
@@ -175,14 +181,30 @@ function build_map() {
     }
   }
 
-  var provincePaths = s.selectAll("#MapLayer path");
-  for (var i = 0; i < provincePaths.length; ++i) {
-    var element = provincePaths[i];
-    element.hover(function() {
-      this.attr("style", "stroke: darkred; stroke-width: 5; fill-opacity: 0.9;");
-    }, function() {
-      this.attr("style", "stroke: black; stroke-width: 1; fill-opacity: 1;");
-    });
+  if (USE_MOUSE_LAYER) {
+    var provincePaths = s.selectAll("#MouseLayer g,path");
+    for (var i = 0; i < provincePaths.length; ++i) {
+      var element = provincePaths[i];
+      element.hover(function() {
+        var targetElement = s.select("#MapLayer path#_" + this.attr("id"));
+        targetElement.attr("style", "stroke: darkred; stroke-width: 5; fill-opacity: 0.9;");
+      }, function() {
+        var targetElement = s.select("#MapLayer path#_" + this.attr("id"));
+        //targetElement.attr("style", "stroke: black; stroke-width: 1; fill-opacity: 1;");
+        targetElement.attr("style", "");
+      });
+    }
+  } else {
+    var provincePaths = s.selectAll("#MapLayer path");
+    for (var i = 0; i < provincePaths.length; ++i) {
+      var element = provincePaths[i];
+      element.hover(function() {
+        this.attr("style", "stroke: darkred; stroke-width: 5; fill-opacity: 0.9;");
+      }, function() {
+        //this.attr("style", "stroke: black; stroke-width: 1; fill-opacity: 1;");
+        this.attr("style", "");
+      });
+    }
   }
 
   var unitLayer = s.select("#UnitLayer");
@@ -194,6 +216,7 @@ function build_map() {
         alert("unknown province: " + province);
         continue;
       }
+      //element.removeClass("nopower");
       element.addClass(power);
     }
 
